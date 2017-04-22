@@ -95,6 +95,8 @@ static NSString *const Cell = @"cell";
         if(_numberOfItems && !_disableIntervalScroll){
             [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
         }
+        _collectionView.scrollEnabled = !(_numberOfItems == 1 && _disableScrollForSingle);
+        self.disableIntervalScroll = !_collectionView.scrollEnabled;
         if(_enableInfiniteScroll){
             return _numberOfItems*3;
         }else{

@@ -37,11 +37,19 @@
 @property (nonatomic) BOOL disableIntervalScroll;
 /** 是否允许无限轮播,默认是YES*/
 @property (nonatomic) BOOL enableInfiniteScroll;
+
+/**
+ 当只有一条数据的时候,禁止滑动.默认是NO
+ */
+@property (nonatomic) BOOL disableScrollForSingle;
 /** 开启定时轮播,默认已经是开启的*/
 - (void)startIntervelScroll;
 /** 停止定时轮播*/
 - (void)stopIntervelScroll;
 
+/**
+ 刷新数据
+ */
 - (void)reload;
 
 
