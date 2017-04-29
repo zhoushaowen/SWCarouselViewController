@@ -160,6 +160,17 @@ static NSString *const Cell = @"cell";
     [self startIntervelScroll];
 }
 
+- (void)calculateIndex {
+    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+        if(_numberOfItems>0){
+            NSIndexPath *indexPath = [_collectionView indexPathsForVisibleItems].lastObject;
+            NSInteger index = _enableInfiniteScroll?indexPath.item%_numberOfItems:indexPath.item;
+            [_delegate sw_carouselView:self didScrollToIndex:index];
+        }
+    }
+
+}
+
 - (void)reset
 {
     if(_enableInfiniteScroll){
@@ -167,6 +178,14 @@ static NSString *const Cell = @"cell";
             NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
             NSInteger transferIndex = index%_numberOfItems;
             [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:transferIndex+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+                    [_delegate sw_carouselView:self didScrollToIndex:transferIndex];
+            }
+        }
+    }else{
+        if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+            NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
+            [_delegate sw_carouselView:self didScrollToIndex:index];
         }
     }
 }

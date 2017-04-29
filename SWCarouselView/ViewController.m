@@ -36,6 +36,10 @@
     imageView.image = image;
 }
 
+- (void)sw_carouselView:(SWCarouselView *)carouselView didScrollToIndex:(NSInteger)index {
+    NSLog(@"%zd",index);
+}
+
 
 
 @end

@@ -22,6 +22,8 @@
 
 - (void)sw_carouselView:(SWCarouselView *)carouselView didSelectedIndex:(NSInteger)index;
 
+- (void)sw_carouselView:(SWCarouselView *)carouselView didScrollToIndex:(NSInteger)index;
+
 - (void)sw_carouselView:(SWCarouselView *)carouselView scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
 
 - (void)sw_carouselView:(SWCarouselView *)carouselView scrollViewDidScroll:(UIScrollView *)scrollView;
