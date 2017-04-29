@@ -163,9 +163,11 @@ static NSString *const Cell = @"cell";
 - (void)reset
 {
     if(_enableInfiniteScroll){
-        NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
-        NSInteger transferIndex = index%_numberOfItems;
-        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:transferIndex+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        if(_numberOfItems>0){
+            NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
+            NSInteger transferIndex = index%_numberOfItems;
+            [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:transferIndex+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        }
     }
 }
 
