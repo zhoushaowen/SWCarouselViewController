@@ -123,27 +123,14 @@ static NSString *const Cell = @"cell";
     }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:scrollViewDidScroll:)]){
-        [_delegate sw_carouselView:self scrollViewDidScroll:scrollView];
-    }
-}
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self reset];
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:scrollViewDidEndDecelerating:)]){
-        [_delegate sw_carouselView:self scrollViewDidEndDecelerating:scrollView];
-    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
     [self reset];
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:scrollViewDidEndDecelerating:)]){
-        [_delegate sw_carouselView:self scrollViewDidEndDecelerating:scrollView];
-    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
