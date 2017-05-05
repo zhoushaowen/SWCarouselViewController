@@ -38,6 +38,7 @@ static NSString *const Cell = @"cell";
     NSUInteger _numberOfItems;
 }
 
+@property (nonatomic,weak) UIPanGestureRecognizer *panGesture;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,weak) id observer1;
 @property (nonatomic,weak) id observer2;
@@ -69,6 +70,7 @@ static NSString *const Cell = @"cell";
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.showsHorizontalScrollIndicator = NO;
     _collectionView.bounces = NO;
+    self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
     [self addSubview:_collectionView];
     _observer1 = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
@@ -232,6 +234,11 @@ static NSString *const Cell = @"cell";
 {
     _enableInfiniteScroll = enableInfiniteScroll;
     [self reload];
+}
+
+- (void)setDisableUserScroll:(BOOL)disableUserScroll {
+    _disableUserScroll = disableUserScroll;
+    _collectionView.scrollEnabled = !_disableUserScroll;
 }
 
 - (void)dealloc

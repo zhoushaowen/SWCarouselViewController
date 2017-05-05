@@ -33,8 +33,18 @@
 @property (nonatomic) NSTimeInterval scrollInterval;
 /** 禁止定时轮播,默认是NO*/
 @property (nonatomic) BOOL disableIntervalScroll;
+
+/**
+ 禁止用户手动滑动,默认NO
+ */
+@property (nonatomic) BOOL disableUserScroll;
 /** 是否允许无限轮播,默认是YES*/
 @property (nonatomic) BOOL enableInfiniteScroll;
+
+/**
+ 滑动手势
+ */
+@property (nonatomic,readonly,weak) UIPanGestureRecognizer *panGesture;
 
 /**
  当只有一条数据的时候,禁止滑动.默认是NO
