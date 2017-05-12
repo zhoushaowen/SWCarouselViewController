@@ -69,7 +69,7 @@ static NSString *const Cell = @"cell";
     _collectionView.pagingEnabled = YES;
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.showsHorizontalScrollIndicator = NO;
-    _collectionView.bounces = NO;
+    _collectionView.bounces = self.bounces;
     self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
     [self addSubview:_collectionView];
@@ -242,6 +242,11 @@ static NSString *const Cell = @"cell";
 - (void)setDisableUserScroll:(BOOL)disableUserScroll {
     _disableUserScroll = disableUserScroll;
     _collectionView.scrollEnabled = !_disableUserScroll;
+}
+
+- (void)setBounces:(BOOL)bounces {
+    _bounces = bounces;
+    _collectionView.bounces = bounces;
 }
 
 - (void)dealloc

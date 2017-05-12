@@ -42,6 +42,11 @@
 @property (nonatomic) BOOL enableInfiniteScroll;
 
 /**
+ 是否允许弹簧效果
+ */
+@property (nonatomic) BOOL bounces;
+
+/**
  滑动手势
  */
 @property (nonatomic,readonly,weak) UIPanGestureRecognizer *panGesture;
