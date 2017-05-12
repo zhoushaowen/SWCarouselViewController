@@ -42,7 +42,7 @@
 @property (nonatomic) BOOL enableInfiniteScroll;
 
 /**
- 是否允许弹簧效果
+ 是否允许弹簧效果,默认YES
  */
 @property (nonatomic) BOOL bounces;
 
