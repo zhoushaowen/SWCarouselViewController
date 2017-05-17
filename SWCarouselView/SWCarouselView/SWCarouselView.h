@@ -33,6 +33,10 @@
 @property (nonatomic) NSTimeInterval scrollInterval;
 /** 禁止定时轮播,默认是NO*/
 @property (nonatomic) BOOL disableIntervalScroll;
+/**
+ 初始化的index，默认是0
+ */
+@property (nonatomic) NSInteger initialIndex;
 
 /**
  禁止用户手动滑动,默认NO
@@ -59,6 +63,14 @@
 - (void)startIntervelScroll;
 /** 停止定时轮播*/
 - (void)stopIntervelScroll;
+
+/**
+ 滑动到某个索引
+
+ @param index 索引
+ @param animated 是否做动画
+ */
+- (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated;
 
 /**
  刷新数据

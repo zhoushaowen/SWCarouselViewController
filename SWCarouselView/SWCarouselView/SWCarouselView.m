@@ -69,7 +69,7 @@ static NSString *const Cell = @"cell";
     _collectionView.pagingEnabled = YES;
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.showsHorizontalScrollIndicator = NO;
-    _collectionView.bounces = self.bounces;
+    _collectionView.bounces = YES;
     self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
     [self addSubview:_collectionView];
@@ -88,6 +88,7 @@ static NSString *const Cell = @"cell";
     [super layoutSubviews];
     UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout *)_collectionView.collectionViewLayout;
     flow.itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
+    [self scrollToIndex:self.initialIndex animated:NO];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -247,6 +248,27 @@ static NSString *const Cell = @"cell";
 - (void)setBounces:(BOOL)bounces {
     _bounces = bounces;
     _collectionView.bounces = bounces;
+}
+
+- (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated {
+    if(_enableInfiniteScroll){
+        if(_numberOfItems>0 && index > 0 && index < _numberOfItems){
+            NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
+            NSInteger transferIndex = index%_numberOfItems;
+            [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:transferIndex+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
+            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+                [_delegate sw_carouselView:self didScrollToIndex:transferIndex];
+            }
+        }
+    }else{
+        if(_numberOfItems>0 && index > 0 && index < _numberOfItems){
+            [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
+            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+                NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
+                [_delegate sw_carouselView:self didScrollToIndex:index];
+            }
+        }
+    }
 }
 
 - (void)dealloc
