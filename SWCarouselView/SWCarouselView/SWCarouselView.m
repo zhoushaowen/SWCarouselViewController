@@ -36,6 +36,7 @@ static NSString *const Cell = @"cell";
 {
     UICollectionView *_collectionView;
     NSUInteger _numberOfItems;
+    UIImageView *_backgroundImageView;
 }
 
 @property (nonatomic,weak) UIPanGestureRecognizer *panGesture;
@@ -59,6 +60,11 @@ static NSString *const Cell = @"cell";
 
 - (void)setup
 {
+    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _backgroundImageView.clipsToBounds = YES;
+    _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [self addSubview:_backgroundImageView];
     UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
     flow.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flow.minimumLineSpacing = 0;
@@ -89,6 +95,11 @@ static NSString *const Cell = @"cell";
     UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout *)_collectionView.collectionViewLayout;
     flow.itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
     [self scrollToIndex:self.initialIndex animated:NO];
+}
+
+- (void)setBackgroundImage:(UIImage *)backgroundImage {
+    _backgroundImage = backgroundImage;
+    _backgroundImageView.image = _backgroundImage;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

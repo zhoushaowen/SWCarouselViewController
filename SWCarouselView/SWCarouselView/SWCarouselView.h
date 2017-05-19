@@ -29,6 +29,11 @@
 @interface SWCarouselView : UIView
 
 @property (nonatomic,weak) id<SWCarouselViewDelegate> delegate;
+/**
+ 背景图片
+ */
+@property (nonatomic,strong) UIImage *backgroundImage;
+
 /** 定时轮播的时间间隔,默认是5秒*/
 @property (nonatomic) NSTimeInterval scrollInterval;
 /** 禁止定时轮播,默认是NO*/
