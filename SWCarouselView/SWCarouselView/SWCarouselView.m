@@ -263,16 +263,14 @@ static NSString *const Cell = @"cell";
 
 - (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated {
     if(_enableInfiniteScroll){
-        if(_numberOfItems>0 && index > 0 && index < _numberOfItems){
-            NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
-            NSInteger transferIndex = index%_numberOfItems;
-            [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:transferIndex+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
+        if(_numberOfItems>0 && index >= 0 && index < _numberOfItems){
+            [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
             if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
-                [_delegate sw_carouselView:self didScrollToIndex:transferIndex];
+                [_delegate sw_carouselView:self didScrollToIndex:index];
             }
         }
     }else{
-        if(_numberOfItems>0 && index > 0 && index < _numberOfItems){
+        if(_numberOfItems>0 && index >= 0 && index < _numberOfItems){
             [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
             if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
                 NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
