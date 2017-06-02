@@ -28,6 +28,8 @@
 
 @interface SWCarouselView : UIView
 
+@property (nonatomic,readonly,strong) UIScrollView *scrollView;
+
 @property (nonatomic,weak) id<SWCarouselViewDelegate> delegate;
 /**
  背景图片

@@ -38,7 +38,7 @@ static NSString *const Cell = @"cell";
     NSUInteger _numberOfItems;
     UIImageView *_backgroundImageView;
 }
-
+@property (nonatomic,strong) UIScrollView *scrollView;
 @property (nonatomic,weak) UIPanGestureRecognizer *panGesture;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,weak) id observer1;
@@ -76,6 +76,7 @@ static NSString *const Cell = @"cell";
     _collectionView.backgroundColor = [UIColor clearColor];
     _collectionView.showsHorizontalScrollIndicator = NO;
     _collectionView.bounces = YES;
+    self.scrollView = _collectionView;
     self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
     [self addSubview:_collectionView];
@@ -108,6 +109,8 @@ static NSString *const Cell = @"cell";
         _numberOfItems = [_delegate sw_numberOfItemsCarouselView:self];
         if(_numberOfItems && !_disableIntervalScroll){
             [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+        }else{
+            [self stopIntervelScroll];
         }
         _collectionView.scrollEnabled = !(_numberOfItems == 1 && _disableScrollForSingle);
         if(self.disableUserScroll){
