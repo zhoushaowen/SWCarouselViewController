@@ -110,7 +110,8 @@ static NSString *const Cell = @"cell";
         if(_numberOfItems && !_disableIntervalScroll){
             [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
         }else{
-            [self stopIntervelScroll];
+            [self.timer invalidate];
+            self.timer = nil;
         }
         _collectionView.scrollEnabled = !(_numberOfItems == 1 && _disableScrollForSingle);
         if(self.disableUserScroll){
@@ -229,6 +230,7 @@ static NSString *const Cell = @"cell";
 - (void)startIntervelScroll
 {
     if(_disableIntervalScroll) return;
+    if(_numberOfItems < 1) return;
     [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2]];
 }
 
