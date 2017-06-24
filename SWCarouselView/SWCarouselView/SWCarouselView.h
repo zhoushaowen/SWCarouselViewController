@@ -41,7 +41,7 @@
 /** 禁止定时轮播,默认是NO*/
 @property (nonatomic) BOOL disableIntervalScroll;
 /**
- 初始化的index，默认是0
+ 初始化的index，默认是0,注意SWCarouselView每次layout都会滑动到这个初识index，如果不想这样可以传一个小于0的数
  */
 @property (nonatomic) NSInteger initialIndex;
 

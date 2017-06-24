@@ -95,6 +95,7 @@ static NSString *const Cell = @"cell";
     [super layoutSubviews];
     UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout *)_collectionView.collectionViewLayout;
     flow.itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
+    if(self.initialIndex < 0) return;
     [self scrollToIndex:self.initialIndex animated:NO];
 }
 
