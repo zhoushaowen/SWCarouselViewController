@@ -295,7 +295,6 @@ static NSString *const Cell = @"cell";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:_observer1];
     [[NSNotificationCenter defaultCenter] removeObserver:_observer2];
-    [self.timer invalidate];
 }
 
 
