@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
   s.homepage      = 'https://github.com/zhoushaowen/SWCarouselView'
 
-  s.ios.deployment_target = '7.0'
+  s.ios.deployment_target = '8.0'
 
   s.summary      = "无限循环轮播图"
 
