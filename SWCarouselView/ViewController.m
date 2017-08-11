@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    SWCarouselView *carouselView = [[SWCarouselView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, 200)];
+    SWCarouselView *carouselView = [[SWCarouselView alloc] initWithFrame:CGRectMake(0, 20+64, self.view.bounds.size.width, 200)];
     carouselView.delegate = self;
     [self.view addSubview:carouselView];
     _array = @[@"1",@"2",@"3"];
@@ -38,6 +38,10 @@
 
 - (void)sw_carouselView:(SWCarouselView *)carouselView didScrollToIndex:(NSInteger)index {
     NSLog(@"%zd",index);
+}
+
+- (void)dealloc {
+    NSLog(@"%s",__func__);
 }
 
 

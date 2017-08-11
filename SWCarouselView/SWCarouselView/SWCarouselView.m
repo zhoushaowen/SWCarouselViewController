@@ -7,6 +7,7 @@
 //
 
 #import "SWCarouselView.h"
+#import <SWExtension/NSTimer+SWUnRetainTimer.h>
 
 @interface SWCarouselCollectionViewCell : UICollectionViewCell
 
@@ -80,11 +81,12 @@ static NSString *const Cell = @"cell";
     self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
     [self addSubview:_collectionView];
+    __weak typeof(self) weakSelf = self;
     _observer1 = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        [self stopIntervelScroll];
+        [weakSelf stopIntervelScroll];
     }];
     _observer2 = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        [self startIntervelScroll];
+        [weakSelf startIntervelScroll];
     }];
     _enableInfiniteScroll = YES;
     _scrollInterval = 5;
@@ -202,7 +204,10 @@ static NSString *const Cell = @"cell";
 - (NSTimer *)timer
 {
     if(!_timer){
-        _timer = [NSTimer timerWithTimeInterval:_scrollInterval target:self selector:@selector(onTimer) userInfo:nil repeats:YES];
+        __weak typeof(self) weakSelf = self;
+        _timer = [NSTimer sw_timerWithTimeInterval:_scrollInterval block:^(NSTimer *timer) {
+            [weakSelf onTimer];
+        } repeats:YES];
     }
     return _timer;
 }
@@ -290,6 +295,7 @@ static NSString *const Cell = @"cell";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:_observer1];
     [[NSNotificationCenter defaultCenter] removeObserver:_observer2];
+    [self.timer invalidate];
 }
 
 

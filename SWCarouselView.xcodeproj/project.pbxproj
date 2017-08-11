@@ -17,9 +17,11 @@
 		3622C3AD1E6D9F4600F6247D /* 1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3622C3AB1E6D9F4600F6247D /* 1@2x.png */; };
 		3622C3AE1E6D9F4600F6247D /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3622C3AC1E6D9F4600F6247D /* 2@2x.png */; };
 		3622C3B01E6D9F4D00F6247D /* 3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3622C3AF1E6D9F4D00F6247D /* 3@2x.png */; };
+		959287B6059B2636CA7B9DE7 /* libPods-SWCarouselView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75716F1470B0F92B78E329B9 /* libPods-SWCarouselView.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06157884B430FE56CC859490 /* Pods-SWCarouselView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWCarouselView.release.xcconfig"; path = "Pods/Target Support Files/Pods-SWCarouselView/Pods-SWCarouselView.release.xcconfig"; sourceTree = "<group>"; };
 		3622C38E1E6D91FF00F6247D /* SWCarouselView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWCarouselView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3622C3921E6D91FF00F6247D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3622C3941E6D91FF00F6247D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -35,6 +37,8 @@
 		3622C3AB1E6D9F4600F6247D /* 1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1@2x.png"; sourceTree = "<group>"; };
 		3622C3AC1E6D9F4600F6247D /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
 		3622C3AF1E6D9F4D00F6247D /* 3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3@2x.png"; sourceTree = "<group>"; };
+		75716F1470B0F92B78E329B9 /* libPods-SWCarouselView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SWCarouselView.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C3C44E926598DFB76464BC9 /* Pods-SWCarouselView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWCarouselView.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SWCarouselView/Pods-SWCarouselView.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,17 +46,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				959287B6059B2636CA7B9DE7 /* libPods-SWCarouselView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05FDF1EE8ADDADB06BA4E44A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				75716F1470B0F92B78E329B9 /* libPods-SWCarouselView.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3622C3851E6D91FF00F6247D = {
 			isa = PBXGroup;
 			children = (
 				3622C3901E6D91FF00F6247D /* SWCarouselView */,
 				3622C38F1E6D91FF00F6247D /* Products */,
+				FD56144C288FADCF5374712F /* Pods */,
+				05FDF1EE8ADDADB06BA4E44A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +116,15 @@
 			path = SWCarouselView;
 			sourceTree = "<group>";
 		};
+		FD56144C288FADCF5374712F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9C3C44E926598DFB76464BC9 /* Pods-SWCarouselView.debug.xcconfig */,
+				06157884B430FE56CC859490 /* Pods-SWCarouselView.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -108,9 +132,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3622C3A51E6D91FF00F6247D /* Build configuration list for PBXNativeTarget "SWCarouselView" */;
 			buildPhases = (
+				EF009BD25C6BFBF5FA62F411 /* [CP] Check Pods Manifest.lock */,
 				3622C38A1E6D91FF00F6247D /* Sources */,
 				3622C38B1E6D91FF00F6247D /* Frameworks */,
 				3622C38C1E6D91FF00F6247D /* Resources */,
+				30DB5F862503D9DF2CBBBEBC /* [CP] Embed Pods Frameworks */,
+				BA6D2AF254369EC507F09DC4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,6 +197,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		30DB5F862503D9DF2CBBBEBC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SWCarouselView/Pods-SWCarouselView-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BA6D2AF254369EC507F09DC4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SWCarouselView/Pods-SWCarouselView-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF009BD25C6BFBF5FA62F411 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SWCarouselView-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3622C38A1E6D91FF00F6247D /* Sources */ = {
@@ -295,6 +373,7 @@
 		};
 		3622C3A61E6D91FF00F6247D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C3C44E926598DFB76464BC9 /* Pods-SWCarouselView.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 2YW229246G;
@@ -307,6 +386,7 @@
 		};
 		3622C3A71E6D91FF00F6247D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06157884B430FE56CC859490 /* Pods-SWCarouselView.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 2YW229246G;

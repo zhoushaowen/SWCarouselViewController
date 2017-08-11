@@ -1,0 +1,6 @@
+platform :ios, ‘8.0’
+
+target “SWCarouselView” do
+pod ‘SWExtension’
+
+end
