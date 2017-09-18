@@ -189,7 +189,7 @@ static NSString *const Cell = @"cell";
             NSInteger transferIndex = index%_numberOfItems;
             [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:transferIndex+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
             if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
-                    [_delegate sw_carouselView:self didScrollToIndex:transferIndex];
+                [_delegate sw_carouselView:self didScrollToIndex:transferIndex];
             }
         }
     }else{
@@ -206,7 +206,8 @@ static NSString *const Cell = @"cell";
     if(!_timer){
         __weak typeof(self) weakSelf = self;
         _timer = [NSTimer sw_timerWithTimeInterval:_scrollInterval block:^(NSTimer *timer) {
-            [weakSelf onTimer];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf onTimer];
         } repeats:YES];
     }
     return _timer;
@@ -293,8 +294,14 @@ static NSString *const Cell = @"cell";
 
 - (void)dealloc
 {
+    //bug fix:[SWCarouselView respondsToSelector:]: message sent to deallocated instance
+    _collectionView.delegate = nil;
+    _collectionView.dataSource = nil;
+    [_timer invalidate];
+    _timer = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:_observer1];
     [[NSNotificationCenter defaultCenter] removeObserver:_observer2];
+    NSLog(@"%s",__func__);
 }
 
 
