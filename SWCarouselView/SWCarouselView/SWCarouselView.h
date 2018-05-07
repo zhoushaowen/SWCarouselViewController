@@ -14,14 +14,20 @@
 
 @required
 
-- (NSUInteger)sw_numberOfItemsCarouselView:(SWCarouselView *)carouselView;
+- (NSUInteger)sw_numberOfItemsInCarouselView:(SWCarouselView *)carouselView;
 
 - (void)sw_carouselView:(SWCarouselView *)carouselView imageView:(UIImageView *)imageView forIndex:(NSInteger)index;
 
 @optional
 
+/**
+ 点击了某个索引
+ */
 - (void)sw_carouselView:(SWCarouselView *)carouselView didSelectedIndex:(NSInteger)index;
 
+/**
+ 当前滑动到哪个索引
+ */
 - (void)sw_carouselView:(SWCarouselView *)carouselView didScrollToIndex:(NSInteger)index;
 
 @end
@@ -40,8 +46,13 @@
 @property (nonatomic) NSTimeInterval scrollInterval;
 /** 禁止定时轮播,默认是NO*/
 @property (nonatomic) BOOL disableIntervalScroll;
+
 /**
- 初始化的index，默认是0,注意SWCarouselView每次layout都会滑动到这个初识index，如果不想这样可以传一个小于0的数
+ 当只有一张图片的时候是否禁止定时轮播,默认是YES
+ */
+@property (nonatomic) BOOL disableIntervalScrollForSinglePage;
+/**
+ 初始化的index，默认是0
  */
 @property (nonatomic) NSInteger initialIndex;
 
@@ -49,7 +60,10 @@
  禁止用户手动滑动,默认NO
  */
 @property (nonatomic) BOOL disableUserScroll;
-/** 是否允许无限轮播,默认是YES*/
+
+/**
+ 是否允许无限轮播,默认是YES
+ */
 @property (nonatomic) BOOL enableInfiniteScroll;
 
 /**
@@ -62,10 +76,6 @@
  */
 @property (nonatomic,readonly,weak) UIPanGestureRecognizer *panGesture;
 
-/**
- 当只有一条数据的时候,禁止滑动.默认是NO
- */
-@property (nonatomic) BOOL disableScrollForSingle;
 /** 开启定时轮播,默认已经是开启的*/
 - (void)startIntervelScroll;
 /** 停止定时轮播*/

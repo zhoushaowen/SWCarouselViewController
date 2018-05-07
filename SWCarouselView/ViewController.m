@@ -21,11 +21,14 @@
     [super viewDidLoad];
     SWCarouselView *carouselView = [[SWCarouselView alloc] initWithFrame:CGRectMake(0, 20+64, self.view.bounds.size.width, 200)];
     carouselView.delegate = self;
+    carouselView.scrollInterval = 2;
+    carouselView.initialIndex = 1;
     [self.view addSubview:carouselView];
     _array = @[@"1",@"2",@"3"];
+//    _array = @[@"1"];
 }
 
-- (NSUInteger)sw_numberOfItemsCarouselView:(SWCarouselView *)carouselView
+- (NSUInteger)sw_numberOfItemsInCarouselView:(SWCarouselView *)carouselView
 {
     return _array.count;
 }

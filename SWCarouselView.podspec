@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name         = "SWCarouselView"
 
-  s.version      = "1.0.9"
+  s.version      = "1.1.0"
 
   s.homepage      = 'https://github.com/zhoushaowen/SWCarouselView'
 

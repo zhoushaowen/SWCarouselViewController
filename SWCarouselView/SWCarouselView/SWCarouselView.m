@@ -44,6 +44,7 @@ static NSString *const Cell = @"cell";
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,weak) id observer1;
 @property (nonatomic,weak) id observer2;
+@property (nonatomic) BOOL isInitialIndexScrolled;
 
 
 @end
@@ -77,6 +78,9 @@ static NSString *const Cell = @"cell";
     _collectionView.backgroundColor = [UIColor clearColor];
     _collectionView.showsHorizontalScrollIndicator = NO;
     _collectionView.bounces = YES;
+    if (@available(iOS 11.0, *)) {
+        _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     self.scrollView = _collectionView;
     self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
@@ -89,16 +93,21 @@ static NSString *const Cell = @"cell";
         [weakSelf startIntervelScroll];
     }];
     _enableInfiniteScroll = YES;
+    _disableIntervalScrollForSinglePage = YES;
     _scrollInterval = 5;
+}
+
+- (void)setDelegate:(id<SWCarouselViewDelegate>)delegate {
+    _delegate = delegate;
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout *)_collectionView.collectionViewLayout;
-    flow.itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
-    if(self.initialIndex < 0) return;
-    [self scrollToIndex:self.initialIndex animated:NO];
+    if(!CGSizeEqualToSize(flow.itemSize, self.bounds.size)){
+        flow.itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
+    }
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage {
@@ -108,15 +117,15 @@ static NSString *const Cell = @"cell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_numberOfItemsCarouselView:)]){
-        _numberOfItems = [_delegate sw_numberOfItemsCarouselView:self];
-        if(_numberOfItems && !_disableIntervalScroll){
+    if(_delegate && [_delegate respondsToSelector:@selector(sw_numberOfItemsInCarouselView:)]){
+        _numberOfItems = [_delegate sw_numberOfItemsInCarouselView:self];
+        if((_numberOfItems > 1 && !_disableIntervalScroll) || (_numberOfItems == 1 && !_disableIntervalScrollForSinglePage && !_disableIntervalScroll)){
             [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
         }else{
-            [self.timer invalidate];
-            self.timer = nil;
+            [_timer invalidate];
+            _timer = nil;
         }
-        _collectionView.scrollEnabled = !(_numberOfItems == 1 && _disableScrollForSingle);
+        _collectionView.scrollEnabled = !(_numberOfItems == 1 && _disableIntervalScrollForSinglePage);
         if(self.disableUserScroll){
             _collectionView.scrollEnabled = NO;
         }
@@ -144,6 +153,15 @@ static NSString *const Cell = @"cell";
     if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didSelectedIndex:)]){
         NSInteger index = _enableInfiniteScroll?indexPath.item%_numberOfItems:indexPath.item;
         [_delegate sw_carouselView:self didSelectedIndex:index];
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.item == 0){
+        if(self.isInitialIndexScrolled) return;
+        self.isInitialIndexScrolled = YES;
+        if(self.initialIndex <= 0) return;
+        [self scrollToIndex:self.initialIndex animated:NO];
     }
 }
 
@@ -231,13 +249,14 @@ static NSString *const Cell = @"cell";
 - (void)stopIntervelScroll
 {
     if(_disableIntervalScroll) return;
-    [self.timer setFireDate:[NSDate distantFuture]];
+    [_timer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)startIntervelScroll
 {
     if(_disableIntervalScroll) return;
     if(_numberOfItems < 1) return;
+    if(_numberOfItems < 2 && _disableIntervalScrollForSinglePage) return;
     [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2]];
 }
 
