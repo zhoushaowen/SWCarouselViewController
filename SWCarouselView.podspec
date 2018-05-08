@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.author       = { "Zhoushaowen" => "348345883@qq.com" }
 
-  s.source       = { :git => "https://github.com/zhoushaowen/SWCarouselView.git", :tag => s.version }
+  s.source       = { :git => "https://github.com/zhoushaowen/SWCarouselViewController.git", :tag => s.version }
   
   s.source_files  = "SWCarouselView/SWCarouselViewController/*.{h,m}"
   
