@@ -13,7 +13,7 @@
 		3622C39C1E6D91FF00F6247D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3622C39A1E6D91FF00F6247D /* Main.storyboard */; };
 		3622C39E1E6D91FF00F6247D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3622C39D1E6D91FF00F6247D /* Assets.xcassets */; };
 		3622C3A11E6D91FF00F6247D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3622C39F1E6D91FF00F6247D /* LaunchScreen.storyboard */; };
-		3622C3AA1E6D922400F6247D /* SWCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3622C3A91E6D922400F6247D /* SWCarouselView.m */; };
+		3622C3AA1E6D922400F6247D /* SWCarouselViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3622C3A91E6D922400F6247D /* SWCarouselViewController.m */; };
 		3622C3AD1E6D9F4600F6247D /* 1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3622C3AB1E6D9F4600F6247D /* 1@2x.png */; };
 		3622C3AE1E6D9F4600F6247D /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3622C3AC1E6D9F4600F6247D /* 2@2x.png */; };
 		3622C3B01E6D9F4D00F6247D /* 3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3622C3AF1E6D9F4D00F6247D /* 3@2x.png */; };
@@ -32,8 +32,8 @@
 		3622C39D1E6D91FF00F6247D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3622C3A01E6D91FF00F6247D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3622C3A21E6D91FF00F6247D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3622C3A81E6D922400F6247D /* SWCarouselView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCarouselView.h; sourceTree = "<group>"; };
-		3622C3A91E6D922400F6247D /* SWCarouselView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCarouselView.m; sourceTree = "<group>"; };
+		3622C3A81E6D922400F6247D /* SWCarouselViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCarouselViewController.h; sourceTree = "<group>"; };
+		3622C3A91E6D922400F6247D /* SWCarouselViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCarouselViewController.m; sourceTree = "<group>"; };
 		3622C3AB1E6D9F4600F6247D /* 1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1@2x.png"; sourceTree = "<group>"; };
 		3622C3AC1E6D9F4600F6247D /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
 		3622C3AF1E6D9F4D00F6247D /* 3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3@2x.png"; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 		3622C3901E6D91FF00F6247D /* SWCarouselView */ = {
 			isa = PBXGroup;
 			children = (
-				36D0E0651E6E53890081A73A /* SWCarouselView */,
+				36D0E0651E6E53890081A73A /* SWCarouselViewController */,
 				3622C3941E6D91FF00F6247D /* AppDelegate.h */,
 				3622C3951E6D91FF00F6247D /* AppDelegate.m */,
 				3622C3971E6D91FF00F6247D /* ViewController.h */,
@@ -107,13 +107,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		36D0E0651E6E53890081A73A /* SWCarouselView */ = {
+		36D0E0651E6E53890081A73A /* SWCarouselViewController */ = {
 			isa = PBXGroup;
 			children = (
-				3622C3A81E6D922400F6247D /* SWCarouselView.h */,
-				3622C3A91E6D922400F6247D /* SWCarouselView.m */,
+				3622C3A81E6D922400F6247D /* SWCarouselViewController.h */,
+				3622C3A91E6D922400F6247D /* SWCarouselViewController.m */,
 			);
-			path = SWCarouselView;
+			path = SWCarouselViewController;
 			sourceTree = "<group>";
 		};
 		FD56144C288FADCF5374712F /* Pods */ = {
@@ -256,7 +256,7 @@
 			files = (
 				3622C3991E6D91FF00F6247D /* ViewController.m in Sources */,
 				3622C3961E6D91FF00F6247D /* AppDelegate.m in Sources */,
-				3622C3AA1E6D922400F6247D /* SWCarouselView.m in Sources */,
+				3622C3AA1E6D922400F6247D /* SWCarouselViewController.m in Sources */,
 				3622C3931E6D91FF00F6247D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

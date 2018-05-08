@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Yidu. All rights reserved.
 //
 
-#import "SWCarouselView.h"
+#import "SWCarouselViewController.h"
 #import <SWExtension/NSTimer+SWUnRetainTimer.h>
 
 @interface SWCarouselCollectionViewCell : UICollectionViewCell
@@ -33,7 +33,7 @@
 
 static NSString *const Cell = @"cell";
 
-@interface SWCarouselView ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface SWCarouselViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 {
     UICollectionView *_collectionView;
     NSUInteger _numberOfItems;
@@ -49,28 +49,24 @@ static NSString *const Cell = @"cell";
 
 @end
 
-@implementation SWCarouselView
+@implementation SWCarouselViewController
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if(self){
-        [self setup];
-    }
-    return self;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setup];
 }
 
 - (void)setup
 {
-    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    _backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
     _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
     _backgroundImageView.clipsToBounds = YES;
     _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    [self addSubview:_backgroundImageView];
+    [self.view addSubview:_backgroundImageView];
     UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
     flow.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flow.minimumLineSpacing = 0;
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flow];
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flow];
     _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
@@ -84,7 +80,7 @@ static NSString *const Cell = @"cell";
     self.scrollView = _collectionView;
     self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
-    [self addSubview:_collectionView];
+    [self.view addSubview:_collectionView];
     __weak typeof(self) weakSelf = self;
     _observer1 = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         [weakSelf stopIntervelScroll];
@@ -97,16 +93,21 @@ static NSString *const Cell = @"cell";
     _scrollInterval = 5;
 }
 
-- (void)setDelegate:(id<SWCarouselViewDelegate>)delegate {
-    _delegate = delegate;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self addTimerToRunLoop];
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self removeTimerFromRunLoop];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
     UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout *)_collectionView.collectionViewLayout;
-    if(!CGSizeEqualToSize(flow.itemSize, self.bounds.size)){
-        flow.itemSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height);
+    if(!CGSizeEqualToSize(flow.itemSize, self.view.bounds.size)){
+        flow.itemSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
     }
 }
 
@@ -115,15 +116,25 @@ static NSString *const Cell = @"cell";
     _backgroundImageView.image = _backgroundImage;
 }
 
+- (BOOL)addTimerToRunLoop {
+    if((_numberOfItems > 1 && !_disableIntervalScroll) || (_numberOfItems == 1 && !_disableIntervalScrollForSinglePage && !_disableIntervalScroll)){
+        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+        return YES;
+    }
+    return NO;
+}
+
+- (void)removeTimerFromRunLoop {
+    [_timer invalidate];
+    _timer = nil;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_numberOfItemsInCarouselView:)]){
-        _numberOfItems = [_delegate sw_numberOfItemsInCarouselView:self];
-        if((_numberOfItems > 1 && !_disableIntervalScroll) || (_numberOfItems == 1 && !_disableIntervalScrollForSinglePage && !_disableIntervalScroll)){
-            [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
-        }else{
-            [_timer invalidate];
-            _timer = nil;
+    if(_delegate && [_delegate respondsToSelector:@selector(sw_numberOfItemsInCarouselViewController:)]){
+        _numberOfItems = [_delegate sw_numberOfItemsInCarouselViewController:self];
+        if(![self addTimerToRunLoop]){
+            [self removeTimerFromRunLoop];
         }
         _collectionView.scrollEnabled = !(_numberOfItems == 1 && _disableIntervalScrollForSinglePage);
         if(self.disableUserScroll){
@@ -141,18 +152,18 @@ static NSString *const Cell = @"cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SWCarouselCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:Cell forIndexPath:indexPath];
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:imageView:forIndex:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:imageView:forIndex:)]){
         NSInteger index = _enableInfiniteScroll?indexPath.item%_numberOfItems:indexPath.item;
-        [_delegate sw_carouselView:self imageView:cell.imageView forIndex:index];
+        [_delegate sw_carouselViewController:self imageView:cell.imageView forIndex:index];
     }
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didSelectedIndex:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didSelectedIndex:)]){
         NSInteger index = _enableInfiniteScroll?indexPath.item%_numberOfItems:indexPath.item;
-        [_delegate sw_carouselView:self didSelectedIndex:index];
+        [_delegate sw_carouselViewController:self didSelectedIndex:index];
     }
 }
 
@@ -189,11 +200,11 @@ static NSString *const Cell = @"cell";
 }
 
 - (void)calculateIndex {
-    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didScrollToIndex:)]){
         if(_numberOfItems>0){
             NSIndexPath *indexPath = [_collectionView indexPathsForVisibleItems].lastObject;
             NSInteger index = _enableInfiniteScroll?indexPath.item%_numberOfItems:indexPath.item;
-            [_delegate sw_carouselView:self didScrollToIndex:index];
+            [_delegate sw_carouselViewController:self didScrollToIndex:index];
         }
     }
 
@@ -206,14 +217,14 @@ static NSString *const Cell = @"cell";
             NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
             NSInteger transferIndex = index%_numberOfItems;
             [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:transferIndex+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
-                [_delegate sw_carouselView:self didScrollToIndex:transferIndex];
+            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didScrollToIndex:)]){
+                [_delegate sw_carouselViewController:self didScrollToIndex:transferIndex];
             }
         }
     }else{
-        if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+        if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didScrollToIndex:)]){
             NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
-            [_delegate sw_carouselView:self didScrollToIndex:index];
+            [_delegate sw_carouselViewController:self didScrollToIndex:index];
         }
     }
 }
@@ -249,7 +260,9 @@ static NSString *const Cell = @"cell";
 - (void)stopIntervelScroll
 {
     if(_disableIntervalScroll) return;
-    [_timer setFireDate:[NSDate distantFuture]];
+    if(_timer.isValid){
+        [_timer setFireDate:[NSDate distantFuture]];
+    }
 }
 
 - (void)startIntervelScroll
@@ -257,7 +270,9 @@ static NSString *const Cell = @"cell";
     if(_disableIntervalScroll) return;
     if(_numberOfItems < 1) return;
     if(_numberOfItems < 2 && _disableIntervalScrollForSinglePage) return;
-    [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+    if(_timer.isValid){
+        [_timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+    }
 }
 
 - (void)reload
@@ -269,10 +284,9 @@ static NSString *const Cell = @"cell";
 {
     _disableIntervalScroll = disableIntervalScroll;
     if(_disableIntervalScroll){
-        [self.timer invalidate];
-        self.timer = nil;
+        [self removeTimerFromRunLoop];
     }else{
-        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        [self addTimerToRunLoop];
     }
 }
 
@@ -296,16 +310,16 @@ static NSString *const Cell = @"cell";
     if(_enableInfiniteScroll){
         if(_numberOfItems>0 && index >= 0 && index < _numberOfItems){
             [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
-            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
-                [_delegate sw_carouselView:self didScrollToIndex:index];
+            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didScrollToIndex:)]){
+                [_delegate sw_carouselViewController:self didScrollToIndex:index];
             }
         }
     }else{
         if(_numberOfItems>0 && index >= 0 && index < _numberOfItems){
             [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];
-            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselView:didScrollToIndex:)]){
+            if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didScrollToIndex:)]){
                 NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
-                [_delegate sw_carouselView:self didScrollToIndex:index];
+                [_delegate sw_carouselViewController:self didScrollToIndex:index];
             }
         }
     }
@@ -316,8 +330,7 @@ static NSString *const Cell = @"cell";
     //bug fix:[SWCarouselView respondsToSelector:]: message sent to deallocated instance
     _collectionView.delegate = nil;
     _collectionView.dataSource = nil;
-    [_timer invalidate];
-    _timer = nil;
+    [self removeTimerFromRunLoop];
     [[NSNotificationCenter defaultCenter] removeObserver:_observer1];
     [[NSNotificationCenter defaultCenter] removeObserver:_observer2];
     NSLog(@"%s",__func__);

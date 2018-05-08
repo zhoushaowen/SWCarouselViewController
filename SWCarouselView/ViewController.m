@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SWCarouselView.h"
+#import "SWCarouselViewController.h"
 
 @interface ViewController ()<SWCarouselViewDelegate>
 {
@@ -19,27 +19,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    SWCarouselView *carouselView = [[SWCarouselView alloc] initWithFrame:CGRectMake(0, 20+64, self.view.bounds.size.width, 200)];
-    carouselView.delegate = self;
-    carouselView.scrollInterval = 2;
-    carouselView.initialIndex = 1;
-    [self.view addSubview:carouselView];
+    SWCarouselViewController *carouselViewController = [[SWCarouselViewController alloc] init];
+    carouselViewController.delegate = self;
+    carouselViewController.scrollInterval = 2;
+    carouselViewController.initialIndex = 1;
+    [self addChildViewController:carouselViewController];
+    carouselViewController.view.frame = CGRectMake(0, 20+64, self.view.bounds.size.width, 200);
+    [self.view addSubview:carouselViewController.view];
+    [carouselViewController didMoveToParentViewController:self];
     _array = @[@"1",@"2",@"3"];
 //    _array = @[@"1"];
 }
 
-- (NSUInteger)sw_numberOfItemsInCarouselView:(SWCarouselView *)carouselView
+- (NSUInteger)sw_numberOfItemsInCarouselViewController:(SWCarouselViewController *)carouselViewController
 {
     return _array.count;
 }
 
-- (void)sw_carouselView:(SWCarouselView *)carouselView imageView:(UIImageView *)imageView forIndex:(NSInteger)index
+- (void)sw_carouselViewController:(SWCarouselViewController *)carouselViewController imageView:(UIImageView *)imageView forIndex:(NSInteger)index
 {
     UIImage *image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[[_array[index] stringByAppendingString:@"@2x"] stringByAppendingPathExtension:@"png"] ofType:nil]];
     imageView.image = image;
 }
 
-- (void)sw_carouselView:(SWCarouselView *)carouselView didScrollToIndex:(NSInteger)index {
+- (void)sw_carouselViewController:(SWCarouselViewController *)carouselViewController didScrollToIndex:(NSInteger)index {
     NSLog(@"%zd",index);
 }
 

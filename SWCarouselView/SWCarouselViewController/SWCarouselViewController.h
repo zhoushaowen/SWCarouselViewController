@@ -8,31 +8,31 @@
 
 #import <UIKit/UIKit.h>
 
-@class SWCarouselView;
+@class SWCarouselViewController;
 
 @protocol SWCarouselViewDelegate <NSObject>
 
 @required
 
-- (NSUInteger)sw_numberOfItemsInCarouselView:(SWCarouselView *)carouselView;
+- (NSUInteger)sw_numberOfItemsInCarouselViewController:(SWCarouselViewController *)carouselViewController;
 
-- (void)sw_carouselView:(SWCarouselView *)carouselView imageView:(UIImageView *)imageView forIndex:(NSInteger)index;
+- (void)sw_carouselViewController:(SWCarouselViewController *)carouselViewController imageView:(UIImageView *)imageView forIndex:(NSInteger)index;
 
 @optional
 
 /**
  点击了某个索引
  */
-- (void)sw_carouselView:(SWCarouselView *)carouselView didSelectedIndex:(NSInteger)index;
+- (void)sw_carouselViewController:(SWCarouselViewController *)carouselViewController didSelectedIndex:(NSInteger)index;
 
 /**
  当前滑动到哪个索引
  */
-- (void)sw_carouselView:(SWCarouselView *)carouselView didScrollToIndex:(NSInteger)index;
+- (void)sw_carouselViewController:(SWCarouselViewController *)carouselViewController didScrollToIndex:(NSInteger)index;
 
 @end
 
-@interface SWCarouselView : UIView
+@interface SWCarouselViewController : UIViewController
 
 @property (nonatomic,readonly,strong) UIScrollView *scrollView;
 
