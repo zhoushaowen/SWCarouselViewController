@@ -81,6 +81,8 @@ static NSString *const Cell = @"cell";
     self.panGesture = _collectionView.panGestureRecognizer;
     [_collectionView registerClass:[SWCarouselCollectionViewCell class] forCellWithReuseIdentifier:Cell];
     [self.view addSubview:_collectionView];
+    _pageControl = [[UIPageControl alloc] init];
+    [self.view addSubview:_pageControl];
     __weak typeof(self) weakSelf = self;
     _observer1 = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         [weakSelf stopIntervelScroll];
@@ -109,6 +111,7 @@ static NSString *const Cell = @"cell";
     if(!CGSizeEqualToSize(flow.itemSize, self.view.bounds.size)){
         flow.itemSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
     }
+    _pageControl.center = CGPointMake(self.view.bounds.size.width/2.0f, self.view.bounds.size.height - 20);
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage {
@@ -133,6 +136,7 @@ static NSString *const Cell = @"cell";
 {
     if(_delegate && [_delegate respondsToSelector:@selector(sw_numberOfItemsInCarouselViewController:)]){
         _numberOfItems = [_delegate sw_numberOfItemsInCarouselViewController:self];
+        _pageControl.numberOfPages = _numberOfItems;
         if(![self addTimerToRunLoop]){
             [self removeTimerFromRunLoop];
         }
@@ -146,6 +150,7 @@ static NSString *const Cell = @"cell";
             return _numberOfItems;
         }
     }
+    _pageControl.numberOfPages = 0;
     return 0;
 }
 
@@ -220,12 +225,14 @@ static NSString *const Cell = @"cell";
             if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didScrollToIndex:)]){
                 [_delegate sw_carouselViewController:self didScrollToIndex:transferIndex];
             }
+            _pageControl.currentPage = transferIndex;
         }
     }else{
+        NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
         if(_delegate && [_delegate respondsToSelector:@selector(sw_carouselViewController:didScrollToIndex:)]){
-            NSInteger index = _collectionView.contentOffset.x/_collectionView.bounds.size.width;
             [_delegate sw_carouselViewController:self didScrollToIndex:index];
         }
+        _pageControl.currentPage = index;
     }
 }
 
@@ -278,6 +285,7 @@ static NSString *const Cell = @"cell";
 - (void)reload
 {
     [_collectionView reloadData];
+    _pageControl.currentPage = 0;
 }
 
 - (void)setDisableIntervalScroll:(BOOL)disableIntervalScroll
@@ -307,6 +315,7 @@ static NSString *const Cell = @"cell";
 }
 
 - (void)scrollToIndex:(NSInteger)index animated:(BOOL)animated {
+    _pageControl.currentPage = index;
     if(_enableInfiniteScroll){
         if(_numberOfItems>0 && index >= 0 && index < _numberOfItems){
             [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index+_numberOfItems inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:animated];

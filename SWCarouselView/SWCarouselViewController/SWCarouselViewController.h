@@ -36,6 +36,8 @@
 
 @property (nonatomic,readonly,strong) UIScrollView *scrollView;
 
+@property (nonatomic,readonly,strong) UIPageControl *pageControl;
+
 @property (nonatomic,weak) id<SWCarouselViewDelegate> delegate;
 /**
  背景图片
