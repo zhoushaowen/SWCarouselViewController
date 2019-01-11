@@ -51,6 +51,16 @@ static NSString *const Cell = @"cell";
 
 @implementation SWCarouselViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        _enableInfiniteScroll = YES;
+        _disableIntervalScrollForSinglePage = YES;
+        _scrollInterval = 5;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setup];
@@ -90,9 +100,6 @@ static NSString *const Cell = @"cell";
     _observer2 = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         [weakSelf startIntervelScroll];
     }];
-    _enableInfiniteScroll = YES;
-    _disableIntervalScrollForSinglePage = YES;
-    _scrollInterval = 5;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
