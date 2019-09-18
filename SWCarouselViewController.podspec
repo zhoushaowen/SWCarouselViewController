@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name         = "SWCarouselViewController"
 
-  s.version      = "2.0.2"
+  s.version      = "2.0.3"
 
   s.homepage      = 'https://github.com/zhoushaowen/SWCarouselViewController'
 
@@ -20,6 +20,6 @@ Pod::Spec.new do |s|
   
   s.requires_arc = true
 
-  s.dependency 'SWExtension'
+  s.dependency 'SWExtension/Core'
 
 end
